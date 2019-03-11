@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd
+	">
+
+    <util:properties id="database"
+                     location="classpath:database.properties" />
+
+    <bean id="dataSource"
+          class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="#{database.driverName}" />
+        <property name="url" value="#{database.url}" />
+        <property name="username" value="#{database.login}" />
+        <property name="password" value="#{database.password}" />
+        <property name="initialSize" value="#{database.initialSize}" />
+        <property name="maxActive" value="#{database.maxActive}" />
+        <property name="removeAbandonedTimeout" value="999999"/>
+        <property name="removeAbandoned" value="false"/>
+        <property name="validationQuery" value="select 1"/>
+    </bean>
+</beans>
