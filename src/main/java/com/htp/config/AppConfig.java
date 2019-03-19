@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Import;
 
 @Configuration
 @ComponentScan("com.htp")
-@Import(DatabaseConfig.class)
+@Import({DatabaseConfig.class, AspectConfig.class})
 public class AppConfig {
 
 }

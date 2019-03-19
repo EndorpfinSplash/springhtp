@@ -34,7 +34,7 @@ public class Main {
 //        context.refresh();
 
         Car myCar = (Car) context.getBean("supercar");
-        System.out.println("Simple " + myCar.getModel());
+        myCar.getModel();
         System.out.println("Engine inside car " + myCar.getEngine().getVolume());
 
         BasicDataSource dataSource = (BasicDataSource)context.getBean("dataSource");

@@ -11,7 +11,7 @@
     <properties>
         <spring.version>5.1.5.RELEASE</spring.version>
         <dbcp-version>1.4</dbcp-version>
-
+        <log4j>1.2.17</log4j>
     </properties>
 
     <build>
@@ -61,7 +61,28 @@
             <version>${dbcp-version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aop</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjrt</artifactId>
+            <version>1.6.11</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>1.6.11</version>
+        </dependency>
+
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>${log4j}</version>
+        </dependency>
     </dependencies>
-
-
 </project>
