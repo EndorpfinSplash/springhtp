@@ -1,11 +1,12 @@
 package com.htp;
 
+import com.htp.config.AppConfig;
+import com.htp.config.DatabaseConfig;
 import com.htp.domain.Car;
-import com.htp.domain.Engine;
+import org.apache.commons.dbcp.BasicDataSource;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 public class Main {
     public static void main(String[] args) {
@@ -16,13 +17,29 @@ public class Main {
 //        Car myCar2 = (Car) context.getBean("myCar2");
 //
 //        System.out.println("With engine " + myCar2.getEngine().getVolume());
+//
+//        ApplicationContext context = new AnnotationConfigApplicationContext("com.htp");
+//        Car myCar = (Car) context.getBean("supercar");
+//        System.out.println("Simple " + myCar.getModel());
+//        System.out.println("Engine inside car " + myCar.getEngine().getVolume());
+//
+//        Engine carEngine = (Engine) context.getBean("carEngine");
+//        System.out.println("Engine info :" + carEngine.getVolume());
 
-        ApplicationContext context = new AnnotationConfigApplicationContext("com.htp");
+        ConfigurableApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
+
+//        ((AnnotationConfigApplicationContext) context).register(AppConfig.class);
+//        ((AnnotationConfigApplicationContext) context).register(DatabaseConfig.class);
+
+//        context.refresh();
+
         Car myCar = (Car) context.getBean("supercar");
         System.out.println("Simple " + myCar.getModel());
         System.out.println("Engine inside car " + myCar.getEngine().getVolume());
 
-        Engine carEngine = (Engine) context.getBean("carEngine");
-        System.out.println("Engine info :" + carEngine.getVolume());
+        BasicDataSource dataSource = (BasicDataSource)context.getBean("dataSource");
+        System.out.println(dataSource.getDriverClassName());
+
+        context.close();
     }
 }

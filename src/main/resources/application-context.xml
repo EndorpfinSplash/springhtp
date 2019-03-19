@@ -12,13 +12,13 @@
               http://www.springframework.org/schema/aop
   http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 
-    <context:component-scan base-package="com.htp"/>
+    <!--<context:component-scan base-package="com.htp"/>-->
 
-    <import resource="datasource.xml"/>
+    <!--<import resource="datasource.xml"/>-->
 
     <!--<bean id="myCar" class="com.htp.domain.Car">-->
-        <!--<constructor-arg index="0" value="1"/>-->
-        <!--<constructor-arg index="1" value="Volvo"/>-->
+    <!--<constructor-arg index="0" value="1"/>-->
+    <!--<constructor-arg index="1" value="Volvo"/>-->
     <!--</bean>-->
 
     <!--<bean id="myCar2" class="com.htp.domain.Car">-->
