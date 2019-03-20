@@ -2,14 +2,13 @@ package com.htp.config;
 
 import org.apache.commons.dbcp.BasicDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.Scope;
 import org.springframework.core.env.Environment;
 
-import java.util.Properties;
+import java.util.Objects;
 
 @Configuration
 @PropertySource("classpath:database.properties")
@@ -26,7 +25,7 @@ public class DatabaseConfig {
         dataSource.setPassword(properties.getProperty("password"));
         dataSource.setUrl(properties.getProperty("url"));
         dataSource.setUsername(properties.getProperty("login"));
-        dataSource.setMaxActive(Integer.valueOf(properties.getProperty("maxActive")));
+        dataSource.setMaxActive(Integer.valueOf(Objects.requireNonNull(properties.getProperty("maxActive"))));
         return dataSource;
     }
 }
