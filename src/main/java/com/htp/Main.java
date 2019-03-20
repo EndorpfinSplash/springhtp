@@ -1,10 +1,8 @@
 package com.htp;
 
 import com.htp.config.AppConfig;
-import com.htp.config.DatabaseConfig;
 import com.htp.domain.Car;
 import org.apache.commons.dbcp.BasicDataSource;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
@@ -27,11 +25,6 @@ public class Main {
 //        System.out.println("Engine info :" + carEngine.getVolume());
 
         ConfigurableApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
-
-//        ((AnnotationConfigApplicationContext) context).register(AppConfig.class);
-//        ((AnnotationConfigApplicationContext) context).register(DatabaseConfig.class);
-
-//        context.refresh();
 
         Car myCar = (Car) context.getBean("supercar");
         myCar.getModel();

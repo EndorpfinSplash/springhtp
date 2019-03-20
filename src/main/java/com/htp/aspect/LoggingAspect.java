@@ -5,11 +5,12 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
+import org.springframework.stereotype.Component;
 
 @Aspect
+@Component
 public class LoggingAspect {
-
-    private static final Logger LOGGER = Logger.getLogger(LoggingAspect.class);
+//    private static final Logger LOGGER = Logger.getLogger(LoggingAspect.class);
 
     @Before("execution(public * *(..))")
     public void logBefore(JoinPoint joinPoint) {
@@ -21,8 +22,8 @@ public class LoggingAspect {
 
     @AfterReturning(pointcut = "execution(public * *(..))")
     public void doAccessCheck(JoinPoint joinPoint) {
-        LOGGER.info("logAfterReturning() is running!");
-        LOGGER.info("Method " + joinPoint.getSignature().getName() + " finished");
+//        LOGGER.info("logAfterReturning() is running!");
+//        LOGGER.info("Method " + joinPoint.getSignature().getName() + " finished");
 
         System.out.println("logAfterReturning() is running!");
         System.out.println("Method " + joinPoint.getSignature().getName() + " finished");
