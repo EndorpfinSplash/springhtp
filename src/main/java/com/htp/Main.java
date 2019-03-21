@@ -2,6 +2,8 @@ package com.htp;
 
 import com.htp.config.AppConfig;
 import com.htp.domain.Car;
+import com.htp.domain.User;
+import com.htp.repository.UserDao;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -26,13 +28,10 @@ public class Main {
 
         ConfigurableApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
 
-        Car myCar = (Car) context.getBean("supercar");
-        myCar.getModel();
-        System.out.println("Engine inside car " + myCar.getEngine().getVolume());
+        UserDao userDao = (UserDao) context.getBean("userDaoImpl");
+        for (User user : userDao.findAll()) {
+            System.out.println(user.toString());
+        }
 
-        BasicDataSource dataSource = (BasicDataSource)context.getBean("dataSource");
-        System.out.println(dataSource.getDriverClassName());
-
-        context.close();
     }
 }

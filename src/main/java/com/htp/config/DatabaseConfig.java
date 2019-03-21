@@ -24,6 +24,7 @@ public class DatabaseConfig {
         dataSource.setDriverClassName(properties.getProperty("driverName"));
         dataSource.setPassword(properties.getProperty("password"));
         dataSource.setUrl(properties.getProperty("url"));
+        dataSource.setInitialSize(Integer.valueOf(Objects.requireNonNull(properties.getProperty("initialSize"))));
         dataSource.setUsername(properties.getProperty("login"));
         dataSource.setMaxActive(Integer.valueOf(Objects.requireNonNull(properties.getProperty("maxActive"))));
         return dataSource;
