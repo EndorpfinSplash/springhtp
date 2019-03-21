@@ -41,3 +41,6 @@ alter table user
 	add constraint user_department_dep_id_fk
 		foreign key (dep_id) references department (dep_id)
 			on update cascade on delete cascade;
+
+create index user_user_name_index
+	on user (user_name);
