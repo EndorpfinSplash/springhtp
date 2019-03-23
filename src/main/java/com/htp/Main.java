@@ -8,6 +8,9 @@ import org.apache.commons.dbcp.BasicDataSource;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import java.sql.Timestamp;
+import java.util.Date;
+
 public class Main {
     public static void main(String[] args) {
 //        ApplicationContext context = new ClassPathXmlApplicationContext("classpath:application-context.xml");
@@ -28,7 +31,11 @@ public class Main {
 
         ConfigurableApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
 
+
         UserDao userDao = (UserDao) context.getBean("userDaoImpl");
+
+        userDao.save(new User(1L,"Andery", "Zinovich", null, 1L));
+
         for (User user : userDao.findAll()) {
             System.out.println(user.toString());
         }
