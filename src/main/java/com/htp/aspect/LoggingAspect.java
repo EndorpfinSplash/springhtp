@@ -16,6 +16,10 @@ import org.springframework.util.StopWatch;
 public class LoggingAspect {
     private static final Logger LOGGER = Logger.getLogger(LoggingAspect.class);
 
+    @Pointcut("execution(* com.htp.domain.*.*(..))")
+    public void domainEntitiesMethods() {
+    }
+
     @Before("domainEntitiesMethods()")
     public void logBefore(JoinPoint joinPoint) {
         LOGGER.info("Method " + joinPoint.getSignature().getName() + " start");
@@ -24,10 +28,6 @@ public class LoggingAspect {
     @AfterReturning(pointcut = "domainEntitiesMethods()")
     public void doAccessCheck(JoinPoint joinPoint) {
         LOGGER.info("Method " + joinPoint.getSignature().getName() + " finished");
-    }
-
-    @Pointcut("execution(* com.htp.domain.*.*(..))")
-    public void domainEntitiesMethods() {
     }
 
     @Around("domainEntitiesMethods()")

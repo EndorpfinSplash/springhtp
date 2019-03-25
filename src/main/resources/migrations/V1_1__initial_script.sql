@@ -44,3 +44,18 @@ alter table user
 
 create index user_user_name_index
 	on user (user_name);
+;
+CREATE DEFINER=`root`@`localhost`
+FUNCTION `get_user_factory_by_id`(id integer)
+RETURNS varchar(100) CHARSET utf8mb4
+BEGIN
+DECLARE result VARCHAR(100);
+select max(f.factory_name) as factory_name
+into result
+  from user u
+  join department d on d.dep_id = u.dep_id
+  join factory f on f.factory_id = d.factory_id
+ where user_id = id;
+
+RETURN result;
+END

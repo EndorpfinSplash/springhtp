@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
@@ -80,11 +81,11 @@ public class UserDaoImpl implements UserDao {
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
-        MapSqlParameterSource params = new MapSqlParameterSource();
-        params.addValue("userName", entity.getUserName());
-        params.addValue("userSurname", entity.getUserSurname());
-        params.addValue("birthDate", entity.getBirthDate());
-        params.addValue("depId", entity.getDepartmentId());
+        MapSqlParameterSource params = new MapSqlParameterSource()
+        .addValue("userName", entity.getUserName())
+        .addValue("userSurname", entity.getUserSurname())
+        .addValue("birthDate", entity.getBirthDate())
+        .addValue("depId", entity.getDepartmentId());
 
         namedParameterJdbcTemplate.update(createQuery, params, keyHolder);
 
@@ -128,4 +129,12 @@ public class UserDaoImpl implements UserDao {
         namedParameterJdbcTemplate.batchUpdate(createQuery, batch.toArray(new SqlParameterSource[batch.size()]));
         return users.stream().map(User::getUserId).collect(Collectors.toList());
     }
+
+    public String getUserFactoryName(Long id) {
+        SimpleJdbcCall call = new SimpleJdbcCall(jdbcTemplate).withFunctionName("get_user_factory_by_id");
+
+        MapSqlParameterSource params = new MapSqlParameterSource().addValue("id",id);
+        return call.executeFunction(String.class, params);
+    }
+
 }
