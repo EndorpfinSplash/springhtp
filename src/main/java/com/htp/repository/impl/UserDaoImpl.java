@@ -10,6 +10,8 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -19,6 +21,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Repository
+@Transactional
 public class UserDaoImpl implements UserDao {
 
     public static final String USER_ID = "user_id";
@@ -72,6 +75,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public User save(User entity) {
         final String createQuery = "INSERT INTO user (user_name, user_surname, birth_date, dep_id) " +
                 "VALUES (:userName, :userSurname, :birthDate, :depId);";
@@ -108,6 +112,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public List<Long> batchUpdate(List<User> users) {
         final String createQuery = "UPDATE user set user_name = :userName, user_surname = :userSurname, " +
                 "birth_date = :birthDate, dep_id = :depId where user_id = :userId";

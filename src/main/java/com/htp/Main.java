@@ -1,12 +1,14 @@
 package com.htp;
 
 import com.htp.config.AppConfig;
-import com.htp.domain.Car;
 import com.htp.domain.User;
 import com.htp.repository.UserDao;
-import org.apache.commons.dbcp.BasicDataSource;
+import com.htp.repository.UserDaoUtil;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+import java.beans.beancontext.BeanContextProxy;
+import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
@@ -29,7 +31,11 @@ public class Main {
         ConfigurableApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
 
         UserDao userDao = (UserDao) context.getBean("userDaoImpl");
-        for (User user : userDao.search("slava")) {
+        UserDaoUtil userDaoUtil = (UserDaoUtil) context.getBean("userDaoUtil");
+
+        userDaoUtil.testOperations();
+
+        for (User user : userDao.findAll()) {
             System.out.println(user.toString());
         }
 
