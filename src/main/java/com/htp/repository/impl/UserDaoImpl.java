@@ -14,9 +14,7 @@ import org.springframework.stereotype.Repository;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -54,7 +52,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public User findById(Long id) {
 //        final String findById = "select * from user where user_id = ?";
-////        return jdbcTemplate.queryForObject(findById, new Object[]{id}, this::getUserRowMapper);
+//        return jdbcTemplate.queryForObject(findById, new Object[]{id}, this::getUserRowMapper);
         final String findById = "select * from user where user_id = :userId";
 
         MapSqlParameterSource params = new MapSqlParameterSource();
@@ -127,5 +125,16 @@ public class UserDaoImpl implements UserDao {
 
         namedParameterJdbcTemplate.batchUpdate(createQuery, batch.toArray(new SqlParameterSource[batch.size()]));
         return users.stream().map(User::getUserId).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<User> search(String query) {
+        final String searchQuery = "select * from user where lower(user_name) LIKE lower(:query) or " +
+                "lower(user_surname) LIKE lower(:query)";
+
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("query", "%" + query + "%");
+
+        return namedParameterJdbcTemplate.query(searchQuery, params, this::getUserRowMapper);
     }
 }

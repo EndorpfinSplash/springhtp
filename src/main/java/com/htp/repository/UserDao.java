@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface UserDao extends GenericDao<User, Long> {
     List<Long> batchUpdate(List<User> users);
+
+    List<User> search(String query);
 }

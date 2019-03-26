@@ -29,7 +29,7 @@ public class Main {
         ConfigurableApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
 
         UserDao userDao = (UserDao) context.getBean("userDaoImpl");
-        for (User user : userDao.findAll()) {
+        for (User user : userDao.search("slava")) {
             System.out.println(user.toString());
         }
 
