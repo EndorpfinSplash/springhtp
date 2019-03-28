@@ -1,14 +1,11 @@
 package com.htp;
 
-import com.htp.config.AppConfig;
+import com.htp.config.core.AppConfig;
 import com.htp.domain.User;
 import com.htp.repository.UserDao;
 import com.htp.repository.UserDaoUtil;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-
-import java.beans.beancontext.BeanContextProxy;
-import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
