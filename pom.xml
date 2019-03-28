@@ -8,6 +8,8 @@
     <artifactId>springhtp</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <packaging>war</packaging>
+
     <properties>
         <aspectj.version>1.6.11</aspectj.version>
         <dbcp-version>1.4</dbcp-version>
