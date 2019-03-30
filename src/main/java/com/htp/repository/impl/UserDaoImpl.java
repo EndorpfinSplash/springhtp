@@ -3,25 +3,27 @@ package com.htp.repository.impl;
 import com.htp.domain.User;
 import com.htp.repository.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
-import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Repository
+@Transactional
 public class UserDaoImpl implements UserDao {
 
     public static final String USER_ID = "user_id";
@@ -55,7 +57,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public User findById(Long id) {
 //        final String findById = "select * from user where user_id = ?";
-////        return jdbcTemplate.queryForObject(findById, new Object[]{id}, this::getUserRowMapper);
+//        return jdbcTemplate.queryForObject(findById, new Object[]{id}, this::getUserRowMapper);
         final String findById = "select * from user where user_id = :userId";
 
         MapSqlParameterSource params = new MapSqlParameterSource();
@@ -75,17 +77,18 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.DEFAULT)
     public User save(User entity) {
         final String createQuery = "INSERT INTO user (user_name, user_surname, birth_date, dep_id) " +
                 "VALUES (:userName, :userSurname, :birthDate, :depId);";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
-        MapSqlParameterSource params = new MapSqlParameterSource()
-        .addValue("userName", entity.getUserName())
-        .addValue("userSurname", entity.getUserSurname())
-        .addValue("birthDate", entity.getBirthDate())
-        .addValue("depId", entity.getDepartmentId());
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("userName", entity.getUserName());
+        params.addValue("userSurname", entity.getUserSurname());
+        params.addValue("birthDate", entity.getBirthDate());
+        params.addValue("depId", entity.getDepartmentId());
 
         namedParameterJdbcTemplate.update(createQuery, params, keyHolder);
 
@@ -111,6 +114,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public List<Long> batchUpdate(List<User> users) {
         final String createQuery = "UPDATE user set user_name = :userName, user_surname = :userSurname, " +
                 "birth_date = :birthDate, dep_id = :depId where user_id = :userId";
@@ -130,11 +134,14 @@ public class UserDaoImpl implements UserDao {
         return users.stream().map(User::getUserId).collect(Collectors.toList());
     }
 
-    public String getUserFactoryName(Long id) {
-        SimpleJdbcCall call = new SimpleJdbcCall(jdbcTemplate).withFunctionName("get_user_factory_by_id");
+    @Override
+    public List<User> search(String query) {
+        final String searchQuery = "select * from user where lower(user_name) LIKE lower(:query) or " +
+                "lower(user_surname) LIKE lower(:query)";
 
-        MapSqlParameterSource params = new MapSqlParameterSource().addValue("id",id);
-        return call.executeFunction(String.class, params);
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("query", "%" + query + "%");
+
+        return namedParameterJdbcTemplate.query(searchQuery, params, this::getUserRowMapper);
     }
-
 }

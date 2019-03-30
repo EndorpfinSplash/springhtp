@@ -1,19 +1,11 @@
 package com.htp;
 
-import com.htp.config.AppConfig;
-import com.htp.domain.Car;
-import com.htp.domain.Department;
-import com.htp.domain.Factory;
+import com.htp.config.core.AppConfig;
 import com.htp.domain.User;
-import com.htp.repository.DepartmentDao;
-import com.htp.repository.FactoryDao;
 import com.htp.repository.UserDao;
-import org.apache.commons.dbcp.BasicDataSource;
+import com.htp.repository.UserDaoUtil;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-
-import java.sql.Timestamp;
-import java.util.Date;
 
 public class Main {
     public static void main(String[] args) {
@@ -35,19 +27,14 @@ public class Main {
 
         ConfigurableApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
 
-
         UserDao userDao = (UserDao) context.getBean("userDaoImpl");
-        FactoryDao factoryDao = (FactoryDao) context.getBean("factoryDaoImpl");
-        factoryDao.save(new Factory("BMW", null));
+        UserDaoUtil userDaoUtil = (UserDaoUtil) context.getBean("userDaoUtil");
 
-        DepartmentDao departmentDao = (DepartmentDao) context.getBean("departmentDaoImpl");
-        departmentDao.save(new Department("Managment",22,1L));
-
-        userDao.save(new User(1L, "Andery", "Zinovich", null, 1L));
+        userDaoUtil.testOperations();
 
         for (User user : userDao.findAll()) {
             System.out.println(user.toString());
         }
-        System.out.println(userDao.getUserFactoryName(3L));
+
     }
 }
