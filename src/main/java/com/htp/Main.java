@@ -1,6 +1,6 @@
 package com.htp;
 
-import com.htp.config.core.AppConfig;
+import com.htp.config.core.AppConfig1;
 import com.htp.domain.User;
 import com.htp.repository.UserDao;
 import com.htp.repository.UserDaoUtil;
@@ -25,7 +25,7 @@ public class Main {
 //        Engine carEngine = (Engine) context.getBean("carEngine");
 //        System.out.println("Engine info :" + carEngine.getVolume());
 
-        ConfigurableApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
+        ConfigurableApplicationContext context = new AnnotationConfigApplicationContext(AppConfig1.class);
 
         UserDao userDao = (UserDao) context.getBean("userDaoImpl");
         UserDaoUtil userDaoUtil = (UserDaoUtil) context.getBean("userDaoUtil");

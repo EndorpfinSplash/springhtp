@@ -66,10 +66,10 @@ public class FactoryDaoImpl implements FactoryDao {
 
     @Override
     public Factory save(Factory entity) {
-        final String createQuery = "insert into factory (factory_id, factory_name, factory_open_year)" +
-                " value (:factory_id, :factory_name, :factory_open_year)";
+        final String createQuery = "insert into factory ( factory_name, factory_open_year)" +
+                " value (/*:factory_id,*/ :factory_name, :factory_open_year)";
         MapSqlParameterSource params = new MapSqlParameterSource();
-        params.addValue("factory_id", entity.getFactory_id());
+       // params.addValue("factory_id", entity.getFactory_id());
         params.addValue("factory_name", entity.getFactory_name());
         params.addValue("factory_open_year", entity.getFactory_open_year());
 

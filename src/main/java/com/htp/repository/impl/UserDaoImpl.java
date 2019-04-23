@@ -3,7 +3,6 @@ package com.htp.repository.impl;
 import com.htp.domain.User;
 import com.htp.repository.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -31,6 +30,10 @@ public class UserDaoImpl implements UserDao {
     public static final String USER_SURNAME = "user_surname";
     public static final String BIRTH_DATE = "birth_date";
     public static final String DEP_ID = "dep_id";
+    public static final String LOGIN = "login";
+    public static final String PASSWORD = "pasword";
+
+
     @Autowired
     private JdbcTemplate jdbcTemplate;
     @Autowired
@@ -42,16 +45,27 @@ public class UserDaoImpl implements UserDao {
         user.setUserId(resultSet.getLong(USER_ID));
         user.setUserName(resultSet.getString(USER_NAME));
         user.setUserSurname(resultSet.getString(USER_SURNAME));
-        user.setBirthDate(resultSet.getTimestamp(BIRTH_DATE));
+        user.setBirthDate(resultSet.getDate(BIRTH_DATE));
         user.setDepartmentId(resultSet.getLong(DEP_ID));
+        user.setLogin(resultSet.getString(LOGIN));
+        user.setPassword(resultSet.getString(PASSWORD));
         return user;
     }
+
+    @Override
+    public User findByLogin(String login) {
+        final String findById = "select * from user where login = :login";
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("login", login);
+        return namedParameterJdbcTemplate.queryForObject(findById, params, this::getUserRowMapper);
+    }
+
 
     @Override
     public List<User> findAll() {
         final String findAllQuery = "select * from user";
 //        return jdbcTemplate.query(findAllQuery, this::getUserRowMapper);
-        return namedParameterJdbcTemplate.query(findAllQuery, this::getUserRowMapper);
+        return namedParameterJdbcTemplate.query(findAllQuery, (resultSet, i) -> getUserRowMapper(resultSet, i));
     }
 
     @Override
@@ -138,6 +152,17 @@ public class UserDaoImpl implements UserDao {
     public List<User> search(String query) {
         final String searchQuery = "select * from user where lower(user_name) LIKE lower(:query) or " +
                 "lower(user_surname) LIKE lower(:query)";
+
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("query", "%" + query + "%");
+
+        return namedParameterJdbcTemplate.query(searchQuery, params, this::getUserRowMapper);
+    }
+
+    @Override
+    public List<User> search(String query, Integer limit, Integer offset) {
+        final String searchQuery = "select * from user where lower(user_name) LIKE lower(:query) or " +
+                "lower(user_surname) LIKE lower(:query) ";
 
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("query", "%" + query + "%");

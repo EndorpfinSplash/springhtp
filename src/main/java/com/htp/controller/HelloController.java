@@ -21,7 +21,7 @@ public class HelloController {
     @Autowired
     private UserDao userDao;
 
-    @RequestMapping(value = "/hello", method = RequestMethod.GET)
+    @RequestMapping(value = {"/home","/hello"}, method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public String printHello(ModelMap model) {
         model.addAttribute("message", "Hello Spring MVC Framework!");
@@ -34,6 +34,10 @@ public class HelloController {
         List<User> search = userDao.search(query);
         model.addAttribute("userName",
                 StringUtils.join(search.stream().map(User::getUserName).collect(Collectors.toList()), ","));
-        return "hello";
+
+        model.addAttribute("usersList",
+                userDao.findAll());
+
+        return "home";
     }
 }

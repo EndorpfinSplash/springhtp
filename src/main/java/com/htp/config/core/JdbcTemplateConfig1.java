@@ -12,7 +12,7 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
 @Configuration
 @ComponentScan("com.htp")
-public class JdbcTemplateConfig {
+public class JdbcTemplateConfig1 {
 
     @Autowired
     @Qualifier("dataSource")

@@ -12,7 +12,7 @@ import java.util.Objects;
 
 @Configuration
 @PropertySource("classpath:database.properties")
-public class DatabaseConfig {
+public class DatabaseConfig1 {
 
     @Autowired
     private Environment properties;

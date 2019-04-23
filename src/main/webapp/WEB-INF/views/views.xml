@@ -1,0 +1,24 @@
+<!DOCTYPE tiles-definitions PUBLIC
+        "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+        "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+
+    <definition name="template"
+                template="/WEB-INF/views/main_template.jsp"> <!-- Общий шаблон -->
+
+    </definition>
+
+    <definition name="home" extends="template"> <!-- Шаблон главной страницы -->
+        <put-attribute name="content" value="/WEB-INF/views/home.jsp" />
+    </definition>
+
+    <definition name="factories" extends="template">
+        <put-attribute name="content"
+                       value="/WEB-INF/views/factory/factory.jsp"/>
+    </definition>
+
+    <definition name="user" extends="template">
+        <put-attribute name="content"
+                       value="/WEB-INF/views/user.jsp"/>
+    </definition>
+</tiles-definitions>

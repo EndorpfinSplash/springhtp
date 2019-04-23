@@ -18,13 +18,13 @@ public class UserDaoUtil {
     private UserDao userDao;
 
     public void testOperations() {
-        userDao.save(new User(100L, "test", "test", new Timestamp(new Date().getTime()), 1L));
-
-        User second = userDao.findById(2L);
-        second.setUserSurname("testTransaction");
-        User third = userDao.findById(3L);
-        third.setUserSurname("12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890");
-
-        userDao.batchUpdate(Arrays.asList(second, third));
+//        userDao.save(new User(100L, "test", "test", new java.sql.Date(new Date().getTime()), 1L));
+//
+//        User second = userDao.findById(2L);
+//        second.setUserSurname("testTransaction");
+//        User third = userDao.findById(3L);
+//        third.setUserSurname("12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890");
+//
+//        userDao.batchUpdate(Arrays.asList(second, third));
     }
 }

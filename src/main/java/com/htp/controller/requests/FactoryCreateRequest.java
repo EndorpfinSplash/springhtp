@@ -1,4 +1,4 @@
-package com.htp.domain;
+package com.htp.controller.requests;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -6,32 +6,18 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import java.sql.Timestamp;
 import java.util.Objects;
 
-public class Factory {
-    private Long factory_id;
+public class FactoryCreateRequest {
+
     private String factory_name;
     private Timestamp factory_open_year;
 
-    public Factory() {
+    public FactoryCreateRequest() {
     }
 
-    public Factory(Long factory_id, String factory_name, Timestamp factory_open_year) {
-        this(factory_name, factory_open_year);
-        this.factory_id = factory_id;
-
-    }
-
-    public Factory(String factory_name, Timestamp factory_open_year) {
+    public FactoryCreateRequest(String factory_name, Timestamp factory_open_year) {
         this.factory_name = factory_name;
         if (factory_open_year == null ) this.factory_open_year = new Timestamp(System.currentTimeMillis());
         else this.factory_open_year = factory_open_year;
-    }
-
-    public Long getFactory_id() {
-        return factory_id;
-    }
-
-    public void setFactory_id(Long factory_id) {
-        this.factory_id = factory_id;
     }
 
     public String getFactory_name() {
@@ -54,16 +40,15 @@ public class Factory {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Factory factory = (Factory) o;
-        return Objects.equals(factory_id, factory.factory_id) &&
-                Objects.equals(factory_name, factory.factory_name) &&
-                Objects.equals(factory_open_year, factory.factory_open_year);
+        FactoryCreateRequest that = (FactoryCreateRequest) o;
+        return Objects.equals(factory_name, that.factory_name) &&
+                Objects.equals(factory_open_year, that.factory_open_year);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(factory_id, factory_name, factory_open_year);
+        return Objects.hash(factory_name, factory_open_year);
     }
 
     @Override
